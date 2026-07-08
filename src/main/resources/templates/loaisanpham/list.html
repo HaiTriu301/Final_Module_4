@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý loại sản phẩm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container my-4">
+
+    <h2 class="mb-4">Quản lý loại sản phẩm</h2>
+
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <a th:href="@{/san-pham}" class="btn btn-secondary">← Quay lại sản phẩm</a>
+        <a th:href="@{/loai-san-pham/create}" class="btn btn-success">+ Thêm loại sản phẩm</a>
+    </div>
+
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+        <tr>
+            <th style="width:64px;">STT</th>
+            <th>Tên loại sản phẩm</th>
+            <th style="width:180px;">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(loaiSanPhamList)}">
+            <td colspan="3" class="text-center text-muted">Chưa có loại sản phẩm nào</td>
+        </tr>
+        <tr th:each="loai, stat : ${loaiSanPhamList}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${loai.name}"></td>
+            <td>
+                <a th:href="@{/loai-san-pham/edit/{id}(id=${loai.id})}" class="btn btn-sm btn-primary">Sửa</a>
+                <form th:action="@{/loai-san-pham/delete/{id}(id=${loai.id})}" method="post" style="display:inline"
+                      th:attr="onsubmit=|return confirm('Xoá loại sản phẩm \'${loai.name}\'?');|">
+                    <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
